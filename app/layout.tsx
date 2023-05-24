@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata = {
 	title: 'coloruiz',
-	description: 'Quiz about colors',
+	description: "How good are you at assigning RGB values to colors? Let's check it out!",
 };
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
