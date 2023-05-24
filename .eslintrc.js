@@ -271,6 +271,8 @@ module.exports = {
 		'tailwindcss/migration-from-tailwind-2': 'error',
 		'tailwindcss/no-contradicting-classname': 'error',
 		'tailwindcss/no-custom-classname': 'error',
+		// react
+		'react/self-closing-comp': 'error',
 	},
 	settings: {
 		'import/extensions': ['.ts', '.tsx'],

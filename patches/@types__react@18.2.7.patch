@@ -1,0 +1,202 @@
+diff --git a/index.d.ts b/index.d.ts
+index 0cfabbbaf30ddd5c0baf6d2974c9594b69c1ad23..18d8d759c09e0be1269042943a0344be4f92b5ce 100755
+--- a/index.d.ts
++++ b/index.d.ts
+@@ -82,7 +82,7 @@ declare namespace React {
+                * @deprecated https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components
+                */
+               deprecatedLegacyContext?: any,
+-          ) => ReactElement<any, any> | null)
++          ) => ReactNode)
+         | (new (props: P) => Component<any, any>);
+ 
+     interface RefObject<T> {
+@@ -113,7 +113,7 @@ declare namespace React {
+         C extends
+             | ForwardRefExoticComponent<any>
+             | { new (props: any): Component<any> }
+-            | ((props: any, context?: any) => ReactElement | null)
++            | ((props: any, context?: any) => ReactNode)
+             | keyof JSX.IntrinsicElements
+     > =
+         // need to check first if `ref` is a valid prop for ts@3.0
+@@ -380,7 +380,7 @@ declare namespace React {
+         /**
+          * **NOTE**: Exotic components are not callable.
+          */
+-        (props: P): (ReactElement|null);
++        (props: P): (ReactNode);
+         readonly $$typeof: symbol;
+     }
+ 
+@@ -550,7 +550,7 @@ declare namespace React {
+     type FC<P = {}> = FunctionComponent<P>;
+ 
+     interface FunctionComponent<P = {}> {
+-        (props: P, context?: any): ReactElement<any, any> | null;
++        (props: P, context?: any): ReactNode;
+         propTypes?: WeakValidationMap<P> | undefined;
+         contextTypes?: ValidationMap<any> | undefined;
+         defaultProps?: Partial<P> | undefined;
+@@ -566,7 +566,7 @@ declare namespace React {
+      * @deprecated - Equivalent with `React.FunctionComponent`.
+      */
+     interface VoidFunctionComponent<P = {}> {
+-        (props: P, context?: any): ReactElement<any, any> | null;
++        (props: P, context?: any): ReactNode;
+         propTypes?: WeakValidationMap<P> | undefined;
+         contextTypes?: ValidationMap<any> | undefined;
+         defaultProps?: Partial<P> | undefined;
+@@ -576,7 +576,7 @@ declare namespace React {
+     type ForwardedRef<T> = ((instance: T | null) => void) | MutableRefObject<T | null> | null;
+ 
+     interface ForwardRefRenderFunction<T, P = {}> {
+-        (props: P, ref: ForwardedRef<T>): ReactElement | null;
++        (props: P, ref: ForwardedRef<T>): ReactNode;
+         displayName?: string | undefined;
+         // explicit rejected with `never` required due to
+         // https://github.com/microsoft/TypeScript/issues/36826
+@@ -3126,6 +3126,7 @@ declare namespace React {
+     }
+ 
+     namespace JSX {
++        type ElementType = GlobalJSXElementType;
+         interface Element extends GlobalJSXElement {}
+         interface ElementClass extends GlobalJSXElementClass {}
+         interface ElementAttributesProperty extends GlobalJSXElementAttributesProperty {}
+@@ -3188,6 +3189,7 @@ declare global {
+      * @deprecated Use `React.JSX` instead of the global `JSX` namespace.
+      */
+     namespace JSX {
++        type ElementType = string | React.JSXElementConstructor<any>;
+         interface Element extends React.ReactElement<any, any> { }
+         interface ElementClass extends React.Component<any> {
+             render(): React.ReactNode;
+@@ -3405,3 +3407,4 @@ interface GlobalJSXIntrinsicAttributes extends JSX.IntrinsicAttributes {}
+ interface GlobalJSXIntrinsicClassAttributes<T> extends JSX.IntrinsicClassAttributes<T> {}
+ 
+ interface GlobalJSXIntrinsicElements extends JSX.IntrinsicElements {}
++type GlobalJSXElementType = JSX.ElementType;
+\ No newline at end of file
+diff --git a/jsx-dev-runtime.d.ts b/jsx-dev-runtime.d.ts
+index be717f4e3004fca3e198df845b8c5571b1555f1b..62eaf2a6dc86cfb0b9d6085585fef8bd14b9c271 100755
+--- a/jsx-dev-runtime.d.ts
++++ b/jsx-dev-runtime.d.ts
+@@ -1,6 +1,7 @@
+ import * as React from './';
+ 
+ export namespace JSX {
++    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
+diff --git a/jsx-runtime.d.ts b/jsx-runtime.d.ts
+index be717f4e3004fca3e198df845b8c5571b1555f1b..62eaf2a6dc86cfb0b9d6085585fef8bd14b9c271 100755
+--- a/jsx-runtime.d.ts
++++ b/jsx-runtime.d.ts
+@@ -1,6 +1,7 @@
+ import * as React from './';
+ 
+ export namespace JSX {
++    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
+diff --git a/ts5.0/index.d.ts b/ts5.0/index.d.ts
+index 44f7dfeec8dd53c64bc64e67ef5b050332b3fb5e..47f5011e434a98652b44b33ca4308e4a5e2ce7c5 100755
+--- a/ts5.0/index.d.ts
++++ b/ts5.0/index.d.ts
+@@ -50,7 +50,7 @@ declare namespace React {
+                * @deprecated https://legacy.react/ts5.0js.org/docs/legacy-context.html#referencing-context-in-stateless-function-components
+                */
+               deprecatedLegacyContext?: any,
+-          ) => ReactElement<any, any> | null)
++          ) => ReactNode)
+         | (new (props: P) => Component<any, any>);
+ 
+     interface RefObject<T> {
+@@ -81,7 +81,7 @@ declare namespace React {
+         C extends
+             | ForwardRefExoticComponent<any>
+             | { new (props: any): Component<any> }
+-            | ((props: any, context?: any) => ReactElement | null)
++            | ((props: any, context?: any) => ReactNode)
+             | keyof JSX.IntrinsicElements
+     > =
+         // need to check first if `ref` is a valid prop for ts@3.0
+@@ -348,7 +348,7 @@ declare namespace React {
+         /**
+          * **NOTE**: Exotic components are not callable.
+          */
+-        (props: P): (ReactElement|null);
++        (props: P): ReactNode;
+         readonly $$typeof: symbol;
+     }
+ 
+@@ -518,7 +518,7 @@ declare namespace React {
+     type FC<P = {}> = FunctionComponent<P>;
+ 
+     interface FunctionComponent<P = {}> {
+-        (props: P, context?: any): ReactElement<any, any> | null;
++        (props: P, context?: any): ReactNode;
+         propTypes?: WeakValidationMap<P> | undefined;
+         contextTypes?: ValidationMap<any> | undefined;
+         defaultProps?: Partial<P> | undefined;
+@@ -534,7 +534,7 @@ declare namespace React {
+      * @deprecated - Equivalent with `React.FunctionComponent`.
+      */
+     interface VoidFunctionComponent<P = {}> {
+-        (props: P, context?: any): ReactElement<any, any> | null;
++        (props: P, context?: any): ReactNode;
+         propTypes?: WeakValidationMap<P> | undefined;
+         contextTypes?: ValidationMap<any> | undefined;
+         defaultProps?: Partial<P> | undefined;
+@@ -544,7 +544,7 @@ declare namespace React {
+     type ForwardedRef<T> = ((instance: T | null) => void) | MutableRefObject<T | null> | null;
+ 
+     interface ForwardRefRenderFunction<T, P = {}> {
+-        (props: P, ref: ForwardedRef<T>): ReactElement | null;
++        (props: P, ref: ForwardedRef<T>): ReactNode;
+         displayName?: string | undefined;
+         // explicit rejected with `never` required due to
+         // https://github.com/microsoft/TypeScript/issues/36826
+@@ -3094,6 +3094,7 @@ declare namespace React {
+     }
+ 
+     namespace JSX {
++        type ElementType = GlobalJSXElementType;
+         interface Element extends GlobalJSXElement {}
+         interface ElementClass extends GlobalJSXElementClass {}
+         interface ElementAttributesProperty extends GlobalJSXElementAttributesProperty {}
+@@ -3362,6 +3363,7 @@ declare global {
+ // React.JSX needs to point to global.JSX to keep global module augmentations intact.
+ // But we can't access global.JSX so we need to create these aliases instead.
+ // Once the global JSX namespace will be removed we replace React.JSX with the contents of global.JSX
++type GlobalJSXElementType = JSX.ElementType;
+ interface GlobalJSXElement extends JSX.Element {}
+ interface GlobalJSXElementClass extends JSX.ElementClass {}
+ interface GlobalJSXElementAttributesProperty extends JSX.ElementAttributesProperty {}
+diff --git a/ts5.0/jsx-dev-runtime.d.ts b/ts5.0/jsx-dev-runtime.d.ts
+index be717f4e3004fca3e198df845b8c5571b1555f1b..62eaf2a6dc86cfb0b9d6085585fef8bd14b9c271 100755
+--- a/ts5.0/jsx-dev-runtime.d.ts
++++ b/ts5.0/jsx-dev-runtime.d.ts
+@@ -1,6 +1,7 @@
+ import * as React from './';
+ 
+ export namespace JSX {
++    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
+diff --git a/ts5.0/jsx-runtime.d.ts b/ts5.0/jsx-runtime.d.ts
+index be717f4e3004fca3e198df845b8c5571b1555f1b..62eaf2a6dc86cfb0b9d6085585fef8bd14b9c271 100755
+--- a/ts5.0/jsx-runtime.d.ts
++++ b/ts5.0/jsx-runtime.d.ts
+@@ -1,6 +1,7 @@
+ import * as React from './';
+ 
+ export namespace JSX {
++    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
