@@ -1,5 +1,7 @@
 import { Suspense } from 'react';
 
+export const dynamic = 'force-dynamic';
+
 const AsyncComponentTest = async () => {
 	await new Promise(resolve => {
 		setTimeout(resolve, 3_000);
