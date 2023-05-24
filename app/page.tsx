@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-import {} from 'react/experimental';
 
 const AsyncComponentTest = async () => {
 	await new Promise(resolve => {
