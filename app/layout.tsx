@@ -24,7 +24,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 			<body className="flex flex-col gap-8 bg-stone-100 p-8 text-stone-950 dark:bg-stone-800 dark:text-stone-100">
 				<Providers>
 					<Header />
-					<div>{children}</div>
+					<main>{children}</main>
 				</Providers>
 			</body>
 		</html>
