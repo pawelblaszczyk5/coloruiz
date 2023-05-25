@@ -1,10 +1,9 @@
-import { Inter } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import { type ReactNode } from 'react';
 
 import '~/app/globals.css';
 
-// TODO: change this font maybe
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const manropeFont = Manrope({ subsets: ['latin'], weight: 'variable', variable: '--font-manrope' });
 
 export const metadata = {
 	title: 'coloruiz',
@@ -13,14 +12,14 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
-		<html className={inter.variable} lang="en">
+		<html className={manropeFont.variable} lang="en">
 			<head>
 				<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 				<link rel="manifest" href="/site.webmanifest" />
 			</head>
-			<body>{children}</body>
+			<body className="p-2">{children}</body>
 		</html>
 	);
 };

@@ -1,24 +1,7 @@
-import { Suspense } from 'react';
-
 export const dynamic = 'force-dynamic';
 
-const AsyncComponentTest = async () => {
-	await new Promise(resolve => {
-		setTimeout(resolve, 3_000);
-	});
-
-	return <div>Hello</div>;
-};
-
-const Home = () => {
-	return (
-		<>
-			<h1>Hello world</h1>
-			<Suspense fallback={<h2>Loading...</h2>}>
-				<AsyncComponentTest />
-			</Suspense>
-		</>
-	);
+const Home = async () => {
+	return <h1 className="text-3xl">Hello world</h1>;
 };
 
 export default Home;
