@@ -21,7 +21,7 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 				<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 				<link rel="manifest" href="/site.webmanifest" />
 			</head>
-			<body className="flex flex-col gap-8 bg-stone-100 p-8 text-stone-950 dark:bg-stone-800 dark:text-stone-100">
+			<body className="flex flex-col gap-8 bg-stone-100 p-8 text-stone-950 dark:bg-stone-800 dark:text-stone-200">
 				<Providers>
 					<Header />
 					<main>{children}</main>
