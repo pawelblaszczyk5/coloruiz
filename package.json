@@ -22,6 +22,7 @@
 		"@iconify-json/lucide": "^1.1.93",
 		"@svgr/core": "^8.0.0",
 		"@svgr/plugin-jsx": "^8.0.1",
+		"@total-typescript/ts-reset": "^0.4.2",
 		"@types/node": "^20.2.3",
 		"@types/react": "^18.2.7",
 		"@types/react-dom": "^18.2.4",
