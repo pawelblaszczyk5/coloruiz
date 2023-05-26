@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 const Home = async () => {
 	return (
 		<div className="mx-auto flex max-w-prose flex-col items-center gap-8 py-12 md:gap-12 md:py-20">
