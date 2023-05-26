@@ -10,6 +10,7 @@
 		"update-deps": "taze major -I -r -w "
 	},
 	"dependencies": {
+		"clsx": "^1.2.1",
 		"next": "^13.4.3",
 		"next-themes": "^0.2.1",
 		"react": "^18.2.0",
