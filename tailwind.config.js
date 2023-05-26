@@ -12,4 +12,10 @@ module.exports = {
 	},
 	darkMode: 'class',
 	plugins: [],
+	future: {
+		hoverOnlyWhenSupported: true,
+	},
+	experimental: {
+		optimizeUniversalDefaults: true,
+	},
 };
