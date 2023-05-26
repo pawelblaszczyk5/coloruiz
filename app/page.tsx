@@ -1,7 +1,7 @@
 const Home = async () => {
 	return (
 		<div className="mx-auto flex max-w-prose flex-col items-center gap-8 py-12 md:gap-12 md:py-20">
-			<h1 className="bg-gradient-to-r from-emerald-400 to-orange-600 bg-clip-text text-6xl font-extrabold text-transparent md:text-7xl">
+			<h1 className="animate-text bg-gradient-to-r from-fuchsia-600 via-teal-400 to-orange-600 bg-clip-text text-6xl font-extrabold text-transparent md:text-7xl">
 				coloruiz
 			</h1>
 			<p className="text-center md:text-lg">
