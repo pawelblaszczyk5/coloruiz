@@ -1,7 +1,7 @@
 import { Manrope } from 'next/font/google';
 import { type ReactNode } from 'react';
-import { Header } from '~/app/Header';
-import { Providers } from '~/app/Providers';
+import { Header } from '~/app/_components/Header';
+import { Providers } from '~/app/_components/Providers';
 
 import '~/app/globals.css';
 

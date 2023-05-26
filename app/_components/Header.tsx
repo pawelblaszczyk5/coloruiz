@@ -5,7 +5,7 @@ import FluentEmojiArtistPalette from '~icons/fluent-emoji/artist-palette.jsx';
 import LucideGithub from '~icons/lucide/github';
 
 const ThemeSwitcher = dynamic(
-	async () => import('~/app/ThemeSwitcher').then(module => ({ default: module.ThemeSwitcher })),
+	async () => import('~/app/_components/ThemeSwitcher').then(module => ({ default: module.ThemeSwitcher })),
 	{ ssr: false },
 );
 
