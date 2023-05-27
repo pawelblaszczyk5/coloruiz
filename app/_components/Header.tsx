@@ -22,6 +22,8 @@ export const Header = () => {
 			<a
 				className="text-2xl outline-2 outline-offset-4 outline-fuchsia-500 focus-visible:outline"
 				href="https://github.com/pawelblaszczyk5/coloruiz"
+				target="_blank"
+				rel="noreferrer"
 			>
 				<span className="sr-only">GitHub</span>
 				<LucideGithub aria-hidden focusable={false} />
