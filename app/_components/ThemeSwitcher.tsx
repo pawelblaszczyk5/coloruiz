@@ -41,7 +41,10 @@ export const ThemeSwitcher = () => {
 	if (typeof window === 'undefined') throw new Error('This component should be rendered only on server');
 
 	return (
-		<button onClick={() => setTheme(nextTheme)} className="text-2xl">
+		<button
+			onClick={() => setTheme(nextTheme)}
+			className="text-2xl outline-2 outline-offset-4 outline-fuchsia-500 focus:outline"
+		>
 			<span className="sr-only">Change theme to {nextTheme}</span>
 			<ThemeIcon aria-hidden focusable={false} />
 		</button>
