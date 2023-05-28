@@ -26,7 +26,9 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
 			<body className="flex flex-col gap-8 bg-stone-100 p-8 text-stone-950 dark:bg-stone-800 dark:text-stone-200">
 				<Providers>
 					<Header />
-					<main>{children}</main>
+					<main className="mx-auto flex max-w-prose flex-col items-center gap-8 py-12 md:gap-12 md:py-20">
+						{children}
+					</main>
 				</Providers>
 			</body>
 		</html>

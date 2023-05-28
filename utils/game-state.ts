@@ -53,3 +53,9 @@ export const saveGameState = async (state: GameState) => {
 		maxAge: 60 * 60 * 24 * 365, // full year,
 	});
 };
+
+export const checkIsGameInProgress = async () => {
+	const gameState = await getGameState();
+
+	return gameState !== null;
+};
