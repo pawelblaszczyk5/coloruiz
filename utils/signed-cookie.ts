@@ -49,7 +49,9 @@ export const unsignCookie = async (value: string, providedSecrets: string | Arra
 
 	invariant(secrets.length, "Secrets array can't be empty and a secret must have value");
 
-	const [data, digest] = value.split('.');
+	const dataEndIndex = value.lastIndexOf('.');
+	const data = value.slice(0, dataEndIndex);
+	const digest = value.slice(dataEndIndex);
 
 	if (!data || !digest) return null;
 
