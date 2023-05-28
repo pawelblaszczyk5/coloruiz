@@ -7,6 +7,8 @@ import '~/app/globals.css';
 
 const manropeFont = Manrope({ subsets: ['latin'], weight: 'variable', variable: '--font-manrope' });
 
+export const runtime = 'edge';
+
 export const metadata = {
 	title: 'coloruiz',
 	description: "How good you're at recognizing colors? Let's check it out in with a geek twist!",
