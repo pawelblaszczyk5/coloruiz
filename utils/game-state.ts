@@ -15,8 +15,19 @@ const gameStateSchema = z.object({
 
 type GameState = z.infer<typeof gameStateSchema>;
 
+const getRandomNumberBetweenInts = (min: number, max: number) => {
+	const roundedMin = Math.ceil(min);
+	const roundedMax = Math.floor(max);
+
+	return Math.floor(Math.random() * (roundedMax - roundedMin + 1) + roundedMin);
+};
+
 const generateRandomColor = () => {
-	return [0, 0, 0] satisfies GameState['currentColor'];
+	return [
+		getRandomNumberBetweenInts(0, 255),
+		getRandomNumberBetweenInts(0, 255),
+		getRandomNumberBetweenInts(0, 255),
+	] satisfies GameState['currentColor'];
 };
 
 export const getDefaultGameState = () => {
