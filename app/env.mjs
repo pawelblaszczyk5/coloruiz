@@ -5,7 +5,8 @@ export const env = createEnv({
 	server: {
 		GAME_STATE_COOKIE_SECRET: z.string().min(32),
 	},
+	client: {},
 	runtimeEnv: {
-		GAME_STATE_COOKIE_SECRET: process.env.GAME_STATE_COOKIE_SECRET,
+		GAME_STATE_COOKIE_SECRET: process.env['GAME_STATE_COOKIE_SECRET'],
 	},
 });
