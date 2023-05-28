@@ -1,3 +1,7 @@
+import UnpluginIconsWebpack from 'unplugin-icons/webpack';
+
+import './app/env.mjs';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	experimental: {
@@ -7,7 +11,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	webpack(config) {
 		config.plugins.push(
-			require('unplugin-icons/webpack')({
+			UnpluginIconsWebpack({
 				compiler: 'jsx',
 				jsx: 'react',
 				autoInstall: true,
@@ -17,4 +21,4 @@ const nextConfig = {
 	},
 };
 
-module.exports = nextConfig;
+export default nextConfig;
