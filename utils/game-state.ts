@@ -102,7 +102,7 @@ export const completeLevel = async (guess: Color) => {
 	const percentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
 	const allowedPercentageDifference = getAllowedPercentageDifferencePerLevel(gameState.level);
 
-	gameState.score += PERFECT_SCORE * (1 - percentageDifference);
+	gameState.score += Math.round(PERFECT_SCORE * (1 - percentageDifference));
 
 	if (percentageDifference > allowedPercentageDifference) gameState.status = 'FINISHED';
 	else gameState.currentColor = generateRandomColor();
