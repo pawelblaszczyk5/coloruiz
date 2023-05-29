@@ -51,7 +51,7 @@ export const unsignCookie = async (value: string, providedSecrets: string | Arra
 
 	const dataEndIndex = value.lastIndexOf('.');
 	const data = value.slice(0, dataEndIndex);
-	const digest = value.slice(dataEndIndex);
+	const digest = value.slice(dataEndIndex + 1);
 
 	if (!data || !digest) return null;
 
