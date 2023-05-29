@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '~/components/button';
 import { checkIsGameInProgress } from '~/utils/game-state';
 
 export const runtime = 'edge';
@@ -15,10 +15,7 @@ const Home = async () => {
 				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit soluta facere veniam, similique alias
 				eos qui sed omnis ad commodi aperiam, vitae amet velit officiis ducimus numquam molestiae? Quas, quibusdam.
 			</p>
-			<Link
-				className="w-40 max-w-full rounded-md border-2 border-yellow-500 px-6 py-2 text-center text-2xl font-medium outline-2 outline-offset-2 outline-fuchsia-500 focus-visible:outline"
-				href="/game"
-			>
+			<Link className="w-40" href="/game">
 				{isGameInProgress ? 'Continue' : 'Play'}
 			</Link>
 		</>
