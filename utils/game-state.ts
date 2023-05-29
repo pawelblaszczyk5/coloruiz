@@ -91,9 +91,9 @@ export const completeLevel = async (guess: Color) => {
 
 	invariant(gameState, 'User should start a game before completing level');
 
-	const precentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
+	const percentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
 
-	console.log(precentageDifference);
+	console.log(percentageDifference);
 };
 
 export const checkIsGameInProgress = async () => {
