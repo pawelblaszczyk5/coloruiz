@@ -11,9 +11,10 @@ const gameStateSchema = z.object({
 	level: z.number().min(1),
 	score: z.number().min(0),
 	currentColor: z.tuple([colorValueSchema, colorValueSchema, colorValueSchema]),
+	status: z.enum(['IN_PROGRESS', 'FINISHED']),
 });
 
-type GameState = z.infer<typeof gameStateSchema>;
+export type GameState = z.infer<typeof gameStateSchema>;
 
 const getRandomNumberBetweenInts = (min: number, max: number) => {
 	const roundedMin = Math.ceil(min);
@@ -30,11 +31,12 @@ const generateRandomColor = () => {
 	] satisfies GameState['currentColor'];
 };
 
-export const getDefaultGameState = () => {
+const getDefaultGameState = () => {
 	return {
 		level: 1,
 		score: 0,
 		currentColor: generateRandomColor(),
+		status: 'IN_PROGRESS',
 	} satisfies GameState;
 };
 
@@ -54,15 +56,22 @@ export const getGameState = async () => {
 	}
 };
 
-export const saveGameState = async (state: GameState) => {
+const saveGameState = async (state: GameState) => {
 	const signedCookieValue = await signCookie(JSON.stringify(state), env.GAME_STATE_COOKIE_SECRET);
 
 	cookies().set(COOKIE_NAME, signedCookieValue, {
 		secure: true,
-		sameSite: true,
+		sameSite: 'strict',
 		httpOnly: true,
+		path: '/',
 		maxAge: 60 * 60 * 24 * 365, // full year,
 	});
+};
+
+export const startNewGame = async () => saveGameState(getDefaultGameState());
+
+export const completeLevel = async (guess: GameState['currentColor']) => {
+	console.log(guess);
 };
 
 export const checkIsGameInProgress = async () => {
