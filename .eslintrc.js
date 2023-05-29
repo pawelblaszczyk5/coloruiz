@@ -283,6 +283,10 @@ module.exports = {
 		react: {
 			version: 'detect',
 		},
+		tailwindcss: {
+			callees: ['cn'],
+			tags: ['tw'],
+		},
 	},
 	overrides: [
 		{
