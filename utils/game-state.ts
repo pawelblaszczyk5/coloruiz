@@ -83,8 +83,16 @@ const calculatePercentageDifference = (colorA: Color, colorB: Color) => {
 		return currentSum + Math.abs(colorAValue - colorBValue);
 	}, 0);
 
-	return (100 * differenceSum) / MAXIMUM_DIFFERENCE;
+	return differenceSum / MAXIMUM_DIFFERENCE;
 };
+
+const BASE_ALLOWED_DIFFERENCE = 0.4;
+const ALLOWED_DIFFERENCE_PER_LEVEL_MULTIPLIER = 0.9;
+
+const getAllowedPercentageDifferencePerLevel = (currentLevel: number) =>
+	BASE_ALLOWED_DIFFERENCE * ALLOWED_DIFFERENCE_PER_LEVEL_MULTIPLIER ** (currentLevel - 1);
+
+const PERFECT_SCORE = 500;
 
 export const completeLevel = async (guess: Color) => {
 	const gameState = await getGameState();
@@ -92,8 +100,14 @@ export const completeLevel = async (guess: Color) => {
 	invariant(gameState, 'User should start a game before completing level');
 
 	const percentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
+	const allowedPercentageDifference = getAllowedPercentageDifferencePerLevel(gameState.level);
 
-	console.log(percentageDifference);
+	gameState.score += PERFECT_SCORE * (1 - percentageDifference);
+
+	if (percentageDifference > allowedPercentageDifference) gameState.status = 'FINISHED';
+	else gameState.currentColor = generateRandomColor();
+
+	await saveGameState(gameState);
 };
 
 export const checkIsGameInProgress = async () => {

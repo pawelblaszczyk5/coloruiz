@@ -14,7 +14,15 @@ const Game = async () => {
 			</form>
 		);
 
-	if (gameState.status === 'FINISHED') return <h1>Finished - final score: {gameState.score}</h1>;
+	if (gameState.status === 'FINISHED')
+		return (
+			<>
+				<h1>Finished - final score: {gameState.score}</h1>
+				<form action={startGame}>
+					<Button>New game</Button>
+				</form>
+			</>
+		);
 
 	const [r, g, b] = gameState.currentColor;
 
@@ -24,6 +32,7 @@ const Game = async () => {
 				className="h-32 w-32 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-500/10"
 				style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
 			/>
+			<h1>score: {gameState.score}</h1>
 			<form className="flex flex-col gap-3" action={proceedGame}>
 				<label htmlFor="color-r">R</label>
 				<input min="0" max="255" step={1} required type="number" name="color-r" />
