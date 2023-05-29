@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import invariant from 'tiny-invariant';
 import { z } from 'zod';
 import { env } from '~/app/env.mjs';
 import { signCookie, unsignCookie } from '~/utils/signed-cookie';
@@ -14,7 +15,8 @@ const gameStateSchema = z.object({
 	status: z.enum(['IN_PROGRESS', 'FINISHED']),
 });
 
-export type GameState = z.infer<typeof gameStateSchema>;
+type GameState = z.infer<typeof gameStateSchema>;
+type Color = GameState['currentColor'];
 
 const getRandomNumberBetweenInts = (min: number, max: number) => {
 	const roundedMin = Math.ceil(min);
@@ -70,8 +72,28 @@ const saveGameState = async (state: GameState) => {
 
 export const startNewGame = async () => saveGameState(getDefaultGameState());
 
-export const completeLevel = async (guess: GameState['currentColor']) => {
-	console.log(guess);
+const MAXIMUM_DIFFERENCE = 3 * 255;
+
+const calculatePercentageDifference = (colorA: Color, colorB: Color) => {
+	const differenceSum = colorA.reduce((currentSum, colorAValue, index) => {
+		const colorBValue = colorB[index];
+
+		invariant(typeof colorBValue === 'number', 'Colors should always have 3 values');
+
+		return currentSum + Math.abs(colorAValue - colorBValue);
+	}, 0);
+
+	return (100 * differenceSum) / MAXIMUM_DIFFERENCE;
+};
+
+export const completeLevel = async (guess: Color) => {
+	const gameState = await getGameState();
+
+	invariant(gameState, 'User should start a game before completing level');
+
+	const precentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
+
+	console.log(precentageDifference);
 };
 
 export const checkIsGameInProgress = async () => {
