@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import invariant from 'tiny-invariant';
 import { z } from 'zod';
-import { env } from '~/app/env.mjs';
+import { env } from '~/utils/env.mjs';
 import { signCookie, unsignCookie } from '~/utils/signed-cookie';
 
 const COOKIE_NAME = 'coloruiz-game-state';
