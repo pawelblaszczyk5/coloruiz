@@ -1,6 +1,6 @@
 import { type z } from 'zod';
 
-declare const BRAND: unique symbol;
+const BRAND = Symbol('BRAND');
 
 type Brand<TInput, TBrand extends string> = TInput & { [BRAND]: TBrand };
 
@@ -32,37 +32,46 @@ type ActionResult<TOutput> = TOutput extends Result<any, any, any> ? TOutput : S
 
 export type Action<TInput, TOutput> = (
 	input: TInput,
-) => Brand<Promise<ActionResult<TOutput>> | Promise<InvalidResult<z.typeToFlattenedError<TInput>>>, 'VACT-ACTION'>;
+) => Promise<ActionResult<TOutput>> | Promise<InvalidResult<z.typeToFlattenedError<TInput>>>;
 
 const ok = <const TResult>(result: TResult) =>
 	({
 		status: 'success',
 		data: result,
+		[BRAND]: 'VACT-RESULT',
 	} as SuccessResult<TResult>);
 
 const invalid = <const TResult>(result: TResult) =>
 	({
 		status: 'invalid',
 		data: result,
+		[BRAND]: 'VACT-RESULT',
 	} as InvalidResult<TResult>);
 
 const error = <const TResult>(result: TResult) =>
 	({
 		status: 'error',
 		data: result,
+		[BRAND]: 'VACT-RESULT',
 	} as ErrorResult<TResult>);
 
-export const vact = <TInput>(validator: z.ZodType<TInput>) => {
-	return <const TOutput>(action: ActionImplementation<TInput, TOutput>) => {
-		return (async (input: TInput) => {
-			const result = validator.safeParse(input);
+const isResult = (input: unknown): input is Result<any, any, any> =>
+	typeof input === 'object' && input !== null && BRAND in input && input[BRAND] === 'VACT-RESULT';
 
-			if (!result.success) return invalid(result.error.flatten());
+export const vact =
+	<const TInput>(validator: z.ZodType<TInput>) =>
+	<const TOutput>(actionImplementation: ActionImplementation<TInput, TOutput>) =>
+		(async (input: TInput) => {
+			const inputValidationResult = validator.safeParse(input);
 
-			return action(result.data);
+			if (!inputValidationResult.success) return invalid(inputValidationResult.error.flatten());
+
+			const actionResult = await actionImplementation(inputValidationResult.data);
+
+			if (isResult(actionResult)) return actionResult;
+
+			return ok(actionResult);
 		}) as Action<TInput, TOutput>;
-	};
-};
 
 vact.ok = ok;
 vact.error = error;
