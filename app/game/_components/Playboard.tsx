@@ -186,14 +186,23 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 							const isValid = await submit();
 
 							if (!isValid) return;
-
-							console.log(value);
 						}}
 					>
 						{match(inputMode)
 							.with('separate', () =>
 								['r', 'g', 'b'].map(color => (
-									<Field<number> key={color} name={color}>
+									<Field<number>
+										key={color}
+										name={color}
+										onSubmitValidate={z
+											.number({
+												invalid_type_error: 'Value is required',
+												required_error: 'Value is required',
+											})
+											.int('Value must be an integer')
+											.min(0, "Value can't be below 0")
+											.max(255, "Value can't be above 255")}
+									>
 										{({ value, setValue, errors }) => (
 											<SingleValueInput
 												value={String(value)}
@@ -208,15 +217,31 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 								)),
 							)
 							.with('hex', () => (
-								<Field<string> name="hex">
+								<Field<string>
+									name="hex"
+									onSubmitValidate={z.union([
+										z
+											.string({
+												invalid_type_error: 'Value is required',
+												required_error: 'Value is required',
+											})
+											.length(3, 'Value must be a valid hex color')
+											.regex(HEX_REGEX, 'Value must be a valid hex color'),
+										z
+											.string({
+												invalid_type_error: 'Value is required',
+												required_error: 'Value is required',
+											})
+											.length(6, 'Value must be a valid hex color')
+											.regex(HEX_REGEX, 'Value must be a valid hex color'),
+									])}
+								>
 									{({ value, setValue, errors }) => (
 										<HexInput
 											error={errors[0]}
 											value={value}
 											onChange={e => {
 												const newValue = e.currentTarget.value;
-
-												console.log(HEX_REGEX.test(newValue));
 
 												setValue(HEX_REGEX.test(newValue) ? newValue : value);
 											}}
