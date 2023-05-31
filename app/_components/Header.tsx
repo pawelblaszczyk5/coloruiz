@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import FluentEmojiArtistPalette from '~icons/fluent-emoji/artist-palette.jsx';
-import LucideGithub from '~icons/lucide/github';
+import LucideGithub from '~icons/lucide/github.jsx';
 
 const ThemeSwitcher = dynamic(
 	async () => import('~/app/_components/ThemeSwitcher').then(module => ({ default: module.ThemeSwitcher })),

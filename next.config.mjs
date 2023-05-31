@@ -15,6 +15,7 @@ const nextConfig = {
 				compiler: 'jsx',
 				jsx: 'react',
 				autoInstall: true,
+				extension: 'jsx`',
 			}),
 		);
 		return config;
