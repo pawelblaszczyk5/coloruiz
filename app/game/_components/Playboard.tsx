@@ -8,8 +8,10 @@ import {
 	NumberInputIncrementTrigger,
 	NumberInputLabel,
 } from '@ark-ui/react';
+import { Form, Field } from 'houseform';
 import { useState, type ReactNode, type ComponentProps, useId } from 'react';
 import { match } from 'ts-pattern';
+import { z } from 'zod';
 import { type proceedGame as proceedGameAction } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 import { cn } from '~/utils/classnames';
@@ -19,7 +21,7 @@ import LucideChevronUp from '~icons/lucide/chevron-up.jsx';
 import LucideHash from '~icons/lucide/hash.jsx';
 
 const DIGIT_REGEX = /\d/u;
-const HEX_REGEX = /[\da-f]*/iu;
+const HEX_REGEX = /^[\da-f]*$/iu;
 
 const SingleValueInput = ({
 	children,
@@ -125,6 +127,18 @@ const HexInput = ({
 	);
 };
 
+type SubmitAnswerPayload =
+	| {
+			r: number;
+			g: number;
+			b: number;
+	  }
+	| {
+			hex: string;
+	  };
+
+const SubmitAnswerForm = Form<SubmitAnswerPayload>;
+
 export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGame: typeof proceedGameAction }) => {
 	const [r, g, b] = state.currentColor;
 	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('separate');
@@ -164,26 +178,66 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 					)}
 				</div>
 			</div>
-			<form className="flex w-64 flex-col gap-6" action={proceedGame}>
-				{match(inputMode)
-					.with('separate', () => (
-						<>
-							<SingleValueInput name="color-r">Red value</SingleValueInput>
-							<SingleValueInput name="color-g">Green value</SingleValueInput>
-							<SingleValueInput name="color-b">Blue value</SingleValueInput>
-						</>
-					))
-					.with('hex', () => <HexInput>Hex value</HexInput>)
-					.exhaustive()}
-				<Button
-					type="button"
-					onClick={() => setInputMode(currentValue => (currentValue === 'hex' ? 'separate' : 'hex'))}
-					variant="outlined"
-				>
-					Switch inputs
-				</Button>
-				<Button>Submit answer</Button>
-			</form>
+			<SubmitAnswerForm>
+				{({ submit, value }) => (
+					<form
+						className="flex w-64 flex-col gap-6"
+						action={async () => {
+							const isValid = await submit();
+
+							if (!isValid) return;
+
+							console.log(value);
+						}}
+					>
+						{match(inputMode)
+							.with('separate', () =>
+								['r', 'g', 'b'].map(color => (
+									<Field<number> key={color} name={color}>
+										{({ value, setValue, errors }) => (
+											<SingleValueInput
+												value={String(value)}
+												onChange={({ valueAsNumber }) => setValue(valueAsNumber)}
+												name={color}
+												error={errors[0]}
+											>
+												{color} value
+											</SingleValueInput>
+										)}
+									</Field>
+								)),
+							)
+							.with('hex', () => (
+								<Field<string> name="hex">
+									{({ value, setValue, errors }) => (
+										<HexInput
+											error={errors[0]}
+											value={value}
+											onChange={e => {
+												const newValue = e.currentTarget.value;
+
+												console.log(HEX_REGEX.test(newValue));
+
+												setValue(HEX_REGEX.test(newValue) ? newValue : value);
+											}}
+										>
+											Hex value
+										</HexInput>
+									)}
+								</Field>
+							))
+							.exhaustive()}
+						<Button
+							type="button"
+							onClick={() => setInputMode(currentValue => (currentValue === 'hex' ? 'separate' : 'hex'))}
+							variant="outlined"
+						>
+							Switch inputs
+						</Button>
+						<Button>Submit answer</Button>
+					</form>
+				)}
+			</SubmitAnswerForm>
 		</div>
 	);
 };
