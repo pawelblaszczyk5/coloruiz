@@ -15,7 +15,7 @@ const Home = async () => {
 				How good you&apos;re at recognizing colors? Let&apos;s check it out in with a geek twist! Rules are simple, you
 				get a random color and you need to guess it RGB values.
 			</p>
-			<p className="text-center md:text-lg">It ain&apos;t easy, so lets check your skills!</p>
+			<p className="text-center md:text-lg">It ain&apos;t easy, so lets check your skills and luck!</p>
 			<NextLink
 				href="/game"
 				className={
