@@ -190,7 +190,7 @@ export const Playboard = ({
 					>
 						{match(inputMode)
 							.with('separate', () =>
-								['r', 'g', 'b'].map(color => (
+								(['r', 'g', 'b'] as const).map(color => (
 									<Field<number>
 										key={color}
 										name={color}
@@ -210,7 +210,12 @@ export const Playboard = ({
 												name={color}
 												error={errors[0]}
 											>
-												{color} value
+												{match(color)
+													.with('r', () => 'Red')
+													.with('g', () => 'Green')
+													.with('b', () => 'Blue')
+													.exhaustive()}{' '}
+												value
 											</SingleValueInput>
 										)}
 									</Field>
