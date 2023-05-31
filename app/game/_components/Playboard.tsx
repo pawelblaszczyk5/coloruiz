@@ -6,7 +6,7 @@ export const Playboard = ({ state }: { state: GameState }) => {
 	const [r, g, b] = state.currentColor;
 
 	return (
-		<>
+		<div className="flex flex-col items-center gap-10">
 			<div
 				className="h-32 w-32 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-500/10"
 				style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
@@ -22,6 +22,6 @@ export const Playboard = ({ state }: { state: GameState }) => {
 				<input min="0" max="255" step={1} required type="number" name="color-b" id="color-b" />
 				<Button>Complete level</Button>
 			</form>
-		</>
+		</div>
 	);
 };

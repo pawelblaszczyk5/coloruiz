@@ -7,8 +7,8 @@ const Home = async () => {
 	const isActiveGame = await checkIsActiveGame();
 
 	return (
-		<>
-			<h1 className="animate-text bg-gradient-to-r from-fuchsia-600 via-teal-400 to-orange-600 bg-clip-text text-6xl font-extrabold text-transparent md:text-7xl">
+		<div className="flex flex-col items-center gap-10">
+			<h1 className="animate-text bg-gradient-to-r from-fuchsia-600 via-teal-400 to-orange-600 bg-clip-text text-6xl font-extrabold text-transparent md:text-8xl">
 				coloruiz
 			</h1>
 			<p className="text-center md:text-lg">
@@ -24,7 +24,7 @@ const Home = async () => {
 			>
 				{isActiveGame ? 'Continue game' : 'Start playing'}
 			</NextLink>
-		</>
+		</div>
 	);
 };
 
