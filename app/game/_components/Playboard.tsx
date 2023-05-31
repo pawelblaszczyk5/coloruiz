@@ -61,7 +61,7 @@ const SingleValueInput = ({
 						hasError ? 'border-rose-700' : 'border-teal-700',
 					)}
 				/>
-				<NumberInputControl className="contents">
+				<NumberInputControl>
 					<NumberInputDecrementTrigger
 						className={cn(
 							'absolute left-0 top-0 grid aspect-square h-full place-items-center border-r-2  text-xl',
