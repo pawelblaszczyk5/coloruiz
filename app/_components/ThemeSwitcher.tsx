@@ -43,7 +43,7 @@ export const ThemeSwitcher = () => {
 	return (
 		<button
 			onClick={() => setTheme(nextTheme)}
-			className="text-2xl outline-2 outline-offset-4 outline-fuchsia-500 focus-visible:outline"
+			className="rounded-sm text-2xl outline-2 outline-offset-4 outline-fuchsia-500 focus-visible:outline"
 		>
 			<span className="sr-only">Change theme to {nextTheme}</span>
 			<ThemeIcon aria-hidden focusable={false} />
