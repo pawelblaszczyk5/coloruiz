@@ -1,4 +1,4 @@
-import { startGame } from '~/app/game/_actions/game';
+import { handleGameStart } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 
 export const Introduction = () => {
@@ -18,7 +18,7 @@ export const Introduction = () => {
 					At all time you can also switch between providing separate RGB values or the hexadecimal value of the color.
 				</p>
 			</div>
-			<form action={startGame}>
+			<form action={handleGameStart}>
 				<Button>Start a new game</Button>
 			</form>
 		</div>

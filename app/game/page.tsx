@@ -1,5 +1,5 @@
 import { match } from 'ts-pattern';
-import { proceedGame } from '~/app/game/_actions/game';
+import { handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Introduction } from '~/app/game/_components/Introduction';
 import { Playboard } from '~/app/game/_components/Playboard';
 import { Summary } from '~/app/game/_components/Summary';
@@ -12,7 +12,7 @@ const Game = async () => {
 
 	return match(gameState)
 		.with(null, () => <Introduction />)
-		.with({ status: 'IN_PROGRESS' }, state => <Playboard proceedGame={proceedGame} state={state} />)
+		.with({ status: 'IN_PROGRESS' }, state => <Playboard onAnswerSubmission={handleAnswerSubmission} state={state} />)
 		.with({ status: 'FINISHED' }, state => <Summary state={state} />)
 		.exhaustive();
 };

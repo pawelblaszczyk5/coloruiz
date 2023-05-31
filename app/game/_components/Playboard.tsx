@@ -12,7 +12,7 @@ import { Form, Field } from 'houseform';
 import { useState, type ReactNode, type ComponentProps, useId } from 'react';
 import { match } from 'ts-pattern';
 import { z } from 'zod';
-import { type proceedGame as proceedGameAction } from '~/app/game/_actions/game';
+import { type handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 import { cn } from '~/utils/classnames';
 import { type GameState } from '~/utils/game-state';
@@ -127,19 +127,15 @@ const HexInput = ({
 	);
 };
 
-type SubmitAnswerPayload =
-	| {
-			r: number;
-			g: number;
-			b: number;
-	  }
-	| {
-			hex: string;
-	  };
+const SubmitAnswerForm = Form<Parameters<typeof handleAnswerSubmission>[0]>;
 
-const SubmitAnswerForm = Form<SubmitAnswerPayload>;
-
-export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGame: typeof proceedGameAction }) => {
+export const Playboard = ({
+	state,
+	onAnswerSubmission,
+}: {
+	state: GameState;
+	onAnswerSubmission: typeof handleAnswerSubmission;
+}) => {
 	const [r, g, b] = state.currentColor;
 	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('separate');
 
@@ -186,6 +182,8 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 							const isValid = await submit();
 
 							if (!isValid) return;
+
+							return onAnswerSubmission(value as Required<typeof value>);
 						}}
 					>
 						{match(inputMode)

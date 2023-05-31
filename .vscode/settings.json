@@ -1,6 +1,6 @@
 {
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"tailwindCSS.experimental.classRegex": [["cn\\(([\\s\\S]*?)\\)", "'([^']*)'"], ["tw`([\\s\\S]*?)`"]],
-	"cSpell.words": ["clsx", "coloruiz", "lucide", "Playboard", "tailwindcss", "unsign", "vact"],
+	"cSpell.words": ["clsx", "coloruiz", "houseform", "lucide", "Playboard", "tailwindcss", "unsign", "vact"],
 	"files.autoSave": "off"
 }

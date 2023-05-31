@@ -180,7 +180,7 @@ module.exports = {
 				allowNamedExports: false,
 				enums: true,
 				typedefs: true,
-				ignoreTypeReferences: false,
+				ignoreTypeReferences: true,
 			},
 		],
 		// eslint-comments

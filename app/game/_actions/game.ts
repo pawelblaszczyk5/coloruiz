@@ -1,21 +1,46 @@
 'use server';
 
-import { completeLevel, startNewGame } from '~/utils/game-state';
+import invariant from 'tiny-invariant';
+import { z } from 'zod';
+import { HEX_REGEX, colorValueSchema } from '~/utils/constants';
+import { type Color, completeLevel, startNewGame } from '~/utils/game-state';
+import { vact } from '~/utils/vact';
 
-export const proceedGame = async (formData: FormData) => {
-	const r = formData.get('color-r');
-	const g = formData.get('color-g');
-	const b = formData.get('color-b');
+const normalizeAnswer = (answer: { hex: string } | { r: number; g: number; b: number }): Color => {
+	if ('r' in answer) return [answer.r, answer.g, answer.b];
 
-	if (!r || typeof r !== 'string' || !g || typeof g !== 'string' || !b || typeof b !== 'string') throw new Error('bla');
+	if (answer.hex.length === 3) {
+		const matches = answer.hex.match(/./gu);
 
-	const rValue = Number(r);
-	const gValue = Number(g);
-	const bValue = Number(b);
+		invariant(matches, 'Text is an invalid hexadecimal value');
 
-	await completeLevel([rValue, gValue, bValue]);
+		return matches.map(hex => Number.parseInt(`${hex}${hex}`, 16)) as Color;
+	}
+
+	const matches = answer.hex.match(/../gu);
+
+	invariant(matches, 'Text is an invalid hexadecimal value');
+
+	return matches.map(hex => Number.parseInt(hex, 16)) as Color;
 };
 
-export const startGame = async () => {
+export const handleAnswerSubmission = vact(
+	z.union([
+		z.object({
+			r: colorValueSchema,
+			g: colorValueSchema,
+			b: colorValueSchema,
+		}),
+		z.object({
+			hex: z.union([z.string().length(3).regex(HEX_REGEX), z.string().length(6).regex(HEX_REGEX)]),
+		}),
+	]),
+)(async data => {
+	const normalizedAnswer = normalizeAnswer(data);
+
+	return completeLevel(normalizedAnswer);
+});
+
+export const handleGameStart = async () => {
 	await startNewGame();
 };

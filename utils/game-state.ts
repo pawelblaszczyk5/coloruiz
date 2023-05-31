@@ -1,12 +1,11 @@
 import { cookies } from 'next/headers';
 import invariant from 'tiny-invariant';
 import { z } from 'zod';
+import { colorValueSchema } from '~/utils/constants';
 import { env } from '~/utils/env.mjs';
 import { signCookie, unsignCookie } from '~/utils/signed-cookie';
 
 const COOKIE_NAME = 'coloruiz-game-state';
-
-const colorValueSchema = z.number().min(0).max(255);
 
 const gameStateSchema = z.object({
 	level: z.number().min(1),
@@ -18,7 +17,7 @@ const gameStateSchema = z.object({
 
 export type GameState = z.infer<typeof gameStateSchema>;
 
-type Color = GameState['currentColor'];
+export type Color = GameState['currentColor'];
 
 const getRandomNumberBetweenInts = (min: number, max: number) => {
 	const roundedMin = Math.ceil(min);
