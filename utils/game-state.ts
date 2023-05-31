@@ -112,8 +112,12 @@ export const completeLevel = async (guess: Color) => {
 	gameState.score += getScore(gameState.level, accuracy);
 	gameState.guessAccuracy = Math.round(accuracy * 100);
 
-	if (difference > allowedDifference) gameState.status = 'FINISHED';
-	else gameState.currentColor = generateRandomColor();
+	if (difference > allowedDifference) {
+		gameState.status = 'FINISHED';
+	} else {
+		gameState.currentColor = generateRandomColor();
+		gameState.level += 1;
+	}
 
 	await saveGameState(gameState);
 };
