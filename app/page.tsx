@@ -1,10 +1,10 @@
 import NextLink from 'next/link';
-import { checkIsGameInProgress } from '~/utils/game-state';
+import { checkIsActiveGame } from '~/utils/game-state';
 
 export const runtime = 'edge';
 
 const Home = async () => {
-	const isGameInProgress = await checkIsGameInProgress();
+	const isActiveGame = await checkIsActiveGame();
 
 	return (
 		<>
@@ -21,7 +21,7 @@ const Home = async () => {
 					'rounded-md text-2xl font-light text-teal-700 underline decoration-1 underline-offset-8 outline-2 outline-offset-4 outline-fuchsia-500 hover:text-teal-600 focus-visible:outline dark:text-teal-400 hover:dark:text-teal-300'
 				}
 			>
-				{isGameInProgress ? 'Continue game' : 'Start playing'}
+				{isActiveGame ? 'Continue game' : 'Start playing'}
 			</NextLink>
 		</>
 	);

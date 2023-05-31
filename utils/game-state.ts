@@ -110,7 +110,7 @@ export const completeLevel = async (guess: Color) => {
 	await saveGameState(gameState);
 };
 
-export const checkIsGameInProgress = async () => {
+export const checkIsActiveGame = async () => {
 	const gameState = await getGameState();
 
 	return gameState !== null;
