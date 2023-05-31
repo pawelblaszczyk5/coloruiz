@@ -15,7 +15,8 @@ const gameStateSchema = z.object({
 	status: z.enum(['IN_PROGRESS', 'FINISHED']),
 });
 
-type GameState = z.infer<typeof gameStateSchema>;
+export type GameState = z.infer<typeof gameStateSchema>;
+
 type Color = GameState['currentColor'];
 
 const getRandomNumberBetweenInts = (min: number, max: number) => {
