@@ -37,7 +37,6 @@ export const Summary = ({ state }: { state: GameState }) => {
 					<h4 className="text-lg">Last guess accuracy: {state.guessAccuracy}%</h4>
 				)}
 			</div>
-
 			<form action={handleGameStart}>
 				<Button>New game</Button>
 			</form>
