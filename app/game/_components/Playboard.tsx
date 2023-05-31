@@ -175,7 +175,7 @@ export const Playboard = ({
 				</div>
 			</div>
 			<SubmitAnswerForm>
-				{({ submit, value }) => (
+				{({ submit, value, reset }) => (
 					<form
 						className="flex w-64 flex-col gap-6"
 						action={async () => {
@@ -183,7 +183,9 @@ export const Playboard = ({
 
 							if (!isValid) return;
 
-							return onAnswerSubmission(value as Required<typeof value>);
+							await onAnswerSubmission(value as Required<typeof value>);
+
+							reset();
 						}}
 					>
 						{match(inputMode)
