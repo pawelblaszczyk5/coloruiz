@@ -1,6 +1,7 @@
 import { match } from 'ts-pattern';
 import { handleGameStart } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
+import { formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 
 export const Summary = ({ state }: { state: GameState }) => {
@@ -33,8 +34,9 @@ export const Summary = ({ state }: { state: GameState }) => {
 			<div className="flex flex-col gap-1">
 				<h2 className="text-lg">Final score: {state.score}</h2>
 				<h3 className="text-lg">Final level: {state.level}</h3>
-				{typeof state.guessAccuracy === 'number' && (
-					<h4 className="text-lg">Last guess accuracy: {state.guessAccuracy}%</h4>
+				{typeof state.guessAccuracy === 'number' && <p>Last guess accuracy: {state.guessAccuracy}%</p>}
+				{typeof state.previousColor === 'object' && (
+					<p>Previous answer: {formatColor(state.previousColor, 'separate')}</p>
 				)}
 			</div>
 			<form action={handleGameStart}>

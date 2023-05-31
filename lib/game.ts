@@ -11,6 +11,7 @@ const gameStateSchema = z.object({
 	level: z.number().min(1),
 	score: z.number().min(0),
 	currentColor: z.tuple([colorValueSchema, colorValueSchema, colorValueSchema]),
+	previousColor: z.tuple([colorValueSchema, colorValueSchema, colorValueSchema]).optional(),
 	guessAccuracy: z.number().min(0).max(100).optional(),
 	status: z.enum(['IN_PROGRESS', 'FINISHED']),
 });
@@ -113,8 +114,10 @@ export const completeLevel = async (guess: Color) => {
 	gameState.guessAccuracy = Math.round(accuracy * 100);
 
 	if (difference > allowedDifference) {
+		gameState.previousColor = gameState.currentColor;
 		gameState.status = 'FINISHED';
 	} else {
+		gameState.previousColor = gameState.currentColor;
 		gameState.currentColor = generateRandomColor();
 		gameState.level += 1;
 	}

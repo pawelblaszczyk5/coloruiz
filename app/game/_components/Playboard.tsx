@@ -15,6 +15,7 @@ import { type handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 import { cn } from '~/lib/classnames';
 import { gameAnswerHexSchema, gameAnswerRGBSchema } from '~/lib/constants';
+import { type ColorMode, formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 import LucideChevronDown from '~icons/lucide/chevron-down.jsx';
 import LucideChevronUp from '~icons/lucide/chevron-up.jsx';
@@ -137,7 +138,7 @@ export const Playboard = ({
 	onAnswerSubmission: typeof handleAnswerSubmission;
 }) => {
 	const [r, g, b] = state.currentColor;
-	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('separate');
+	const [inputMode, setInputMode] = useState<ColorMode>('separate');
 
 	return (
 		<div className="flex flex-col items-center gap-10">
@@ -149,28 +150,33 @@ export const Playboard = ({
 				/>
 				<div>
 					<h2 className="text-lg">Score: {state.score}</h2>
-					{typeof state.guessAccuracy === 'number' && <h3>Last guess accuracy: {state.guessAccuracy}%</h3>}
 					{typeof state.guessAccuracy === 'number' && (
-						<p>
-							{match(state.guessAccuracy)
-								.when(
-									value => value > 95,
-									() => 'Amazing 🚀',
-								)
-								.when(
-									value => value > 90,
-									() => 'You rock 🪨',
-								)
-								.when(
-									value => value > 80,
-									() => 'Not bad 🙂',
-								)
-								.when(
-									value => value > 65,
-									() => 'Could be better 😛',
-								)
-								.otherwise(() => 'You must train more 🙃')}
-						</p>
+						<>
+							<h3 className="text-lg">Last guess accuracy: {state.guessAccuracy}%</h3>
+							<p>
+								{match(state.guessAccuracy)
+									.when(
+										value => value > 95,
+										() => 'Amazing 🚀',
+									)
+									.when(
+										value => value > 90,
+										() => 'You rock 🪨',
+									)
+									.when(
+										value => value > 80,
+										() => 'Not bad 🙂',
+									)
+									.when(
+										value => value > 65,
+										() => 'Could be better 😛',
+									)
+									.otherwise(() => 'You must train more 🙃')}
+							</p>
+						</>
+					)}
+					{typeof state.previousColor === 'object' && (
+						<p>Previous answer: {formatColor(state.previousColor, inputMode)}</p>
 					)}
 				</div>
 			</div>
