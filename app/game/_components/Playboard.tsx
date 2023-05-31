@@ -145,7 +145,7 @@ export const Playboard = ({
 			<h1 className="text-4xl">Level {state.level}</h1>
 			<div className="flex gap-4">
 				<div
-					className="h-24 w-24 shrink-0 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-700/80 sm:h-32 sm:w-32"
+					className="h-24 w-24 shrink-0 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-200/20 sm:h-32 sm:w-32"
 					style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
 				/>
 				<div>
