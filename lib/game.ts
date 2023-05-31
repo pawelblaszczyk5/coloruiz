@@ -114,7 +114,6 @@ export const completeLevel = async (guess: Color) => {
 	gameState.guessAccuracy = Math.round(accuracy * 100);
 
 	if (difference > allowedDifference) {
-		gameState.previousColor = gameState.currentColor;
 		gameState.status = 'FINISHED';
 	} else {
 		gameState.previousColor = gameState.currentColor;

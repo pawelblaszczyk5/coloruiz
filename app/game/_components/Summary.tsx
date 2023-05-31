@@ -35,9 +35,7 @@ export const Summary = ({ state }: { state: GameState }) => {
 				<h2 className="text-lg">Final score: {state.score}</h2>
 				<h3 className="text-lg">Final level: {state.level}</h3>
 				{typeof state.guessAccuracy === 'number' && <p>Last guess accuracy: {state.guessAccuracy}%</p>}
-				{typeof state.previousColor === 'object' && (
-					<p>Previous answer: {formatColor(state.previousColor, 'separate')}</p>
-				)}
+				<p>Correct answer: {formatColor(state.currentColor, 'separate')}</p>
 			</div>
 			<form action={handleGameStart}>
 				<Button>New game</Button>
