@@ -11,10 +11,10 @@ import {
 import { Form, Field } from 'houseform';
 import { useState, type ReactNode, type ComponentProps, useId } from 'react';
 import { match } from 'ts-pattern';
-import { z } from 'zod';
 import { type handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 import { cn } from '~/utils/classnames';
+import { gameAnswerHexSchema, gameAnswerRGBSchema } from '~/utils/constants';
 import { type GameState } from '~/utils/game-state';
 import LucideChevronDown from '~icons/lucide/chevron-down.jsx';
 import LucideChevronUp from '~icons/lucide/chevron-up.jsx';
@@ -183,6 +183,7 @@ export const Playboard = ({
 
 							if (!isValid) return;
 
+							// value is validated here
 							await onAnswerSubmission(value as Required<typeof value>);
 
 							reset();
@@ -191,18 +192,7 @@ export const Playboard = ({
 						{match(inputMode)
 							.with('separate', () =>
 								(['r', 'g', 'b'] as const).map(color => (
-									<Field<number>
-										key={color}
-										name={color}
-										onSubmitValidate={z
-											.number({
-												invalid_type_error: 'Value is required',
-												required_error: 'Value is required',
-											})
-											.int('Value must be an integer')
-											.min(0, "Value can't be below 0")
-											.max(255, "Value can't be above 255")}
-									>
+									<Field<number> key={color} name={color} onSubmitValidate={gameAnswerRGBSchema.shape.r}>
 										{({ value, setValue, errors }) => (
 											<SingleValueInput
 												value={String(value)}
@@ -222,25 +212,7 @@ export const Playboard = ({
 								)),
 							)
 							.with('hex', () => (
-								<Field<string>
-									name="hex"
-									onSubmitValidate={z.union([
-										z
-											.string({
-												invalid_type_error: 'Value is required',
-												required_error: 'Value is required',
-											})
-											.length(3, 'Value must be a valid hex color')
-											.regex(HEX_REGEX, 'Value must be a valid hex color'),
-										z
-											.string({
-												invalid_type_error: 'Value is required',
-												required_error: 'Value is required',
-											})
-											.length(6, 'Value must be a valid hex color')
-											.regex(HEX_REGEX, 'Value must be a valid hex color'),
-									])}
-								>
+								<Field<string> name="hex" onSubmitValidate={gameAnswerHexSchema.shape.hex}>
 									{({ value, setValue, errors }) => (
 										<HexInput
 											error={errors[0]}

@@ -1,8 +1,7 @@
 'use server';
 
 import invariant from 'tiny-invariant';
-import { z } from 'zod';
-import { HEX_REGEX, colorValueSchema } from '~/utils/constants';
+import { gameAnswerSchema } from '~/utils/constants';
 import { type Color, completeLevel, startNewGame } from '~/utils/game-state';
 import { vact } from '~/utils/vact';
 
@@ -24,18 +23,7 @@ const normalizeAnswer = (answer: { hex: string } | { r: number; g: number; b: nu
 	return matches.map(hex => Number.parseInt(hex, 16)) as Color;
 };
 
-export const handleAnswerSubmission = vact(
-	z.union([
-		z.object({
-			r: colorValueSchema,
-			g: colorValueSchema,
-			b: colorValueSchema,
-		}),
-		z.object({
-			hex: z.union([z.string().length(3).regex(HEX_REGEX), z.string().length(6).regex(HEX_REGEX)]),
-		}),
-	]),
-)(async data => {
+export const handleAnswerSubmission = vact(gameAnswerSchema)(async data => {
 	const normalizedAnswer = normalizeAnswer(data);
 
 	return completeLevel(normalizedAnswer);
