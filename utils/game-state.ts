@@ -12,6 +12,7 @@ const gameStateSchema = z.object({
 	level: z.number().min(1),
 	score: z.number().min(0),
 	currentColor: z.tuple([colorValueSchema, colorValueSchema, colorValueSchema]),
+	guessAccuracy: z.number().min(0).max(100).optional(),
 	status: z.enum(['IN_PROGRESS', 'FINISHED']),
 });
 
@@ -73,9 +74,9 @@ const saveGameState = async (state: GameState) => {
 
 export const startNewGame = async () => saveGameState(getDefaultGameState());
 
-const MAXIMUM_DIFFERENCE = 3 * 255;
+const MAX_DIFF = 3 * 255;
 
-const calculatePercentageDifference = (colorA: Color, colorB: Color) => {
+const calculateDiff = (colorA: Color, colorB: Color) => {
 	const differenceSum = colorA.reduce((currentSum, colorAValue, index) => {
 		const colorBValue = colorB[index];
 
@@ -84,14 +85,14 @@ const calculatePercentageDifference = (colorA: Color, colorB: Color) => {
 		return currentSum + Math.abs(colorAValue - colorBValue);
 	}, 0);
 
-	return differenceSum / MAXIMUM_DIFFERENCE;
+	return differenceSum / MAX_DIFF;
 };
 
-const BASE_ALLOWED_DIFFERENCE = 0.4;
-const ALLOWED_DIFFERENCE_PER_LEVEL_MULTIPLIER = 0.9;
+const BASE_ALLOWED_DIFF = 0.4;
+const ALLOWED_DIFF_PER_LEVEL_MULTIPLIER = 0.9;
 
-const getAllowedPercentageDifferencePerLevel = (currentLevel: number) =>
-	BASE_ALLOWED_DIFFERENCE * ALLOWED_DIFFERENCE_PER_LEVEL_MULTIPLIER ** (currentLevel - 1);
+const getAllowedDiffPerLevel = (currentLevel: number) =>
+	BASE_ALLOWED_DIFF * ALLOWED_DIFF_PER_LEVEL_MULTIPLIER ** (currentLevel - 1);
 
 const PERFECT_SCORE = 500;
 
@@ -100,12 +101,15 @@ export const completeLevel = async (guess: Color) => {
 
 	invariant(gameState, 'User should start a game before completing level');
 
-	const percentageDifference = calculatePercentageDifference(guess, gameState.currentColor);
-	const allowedPercentageDifference = getAllowedPercentageDifferencePerLevel(gameState.level);
+	const difference = calculateDiff(guess, gameState.currentColor);
+	const allowedDifference = getAllowedDiffPerLevel(gameState.level);
 
-	gameState.score += Math.round(PERFECT_SCORE * (1 - percentageDifference));
+	const accuracy = 1 - difference;
 
-	if (percentageDifference > allowedPercentageDifference) gameState.status = 'FINISHED';
+	gameState.score += Math.round(PERFECT_SCORE * accuracy);
+	gameState.guessAccuracy = Math.round(accuracy * 100);
+
+	if (difference > allowedDifference) gameState.status = 'FINISHED';
 	else gameState.currentColor = generateRandomColor();
 
 	await saveGameState(gameState);

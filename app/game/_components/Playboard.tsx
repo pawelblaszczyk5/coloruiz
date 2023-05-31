@@ -12,6 +12,7 @@ export const Playboard = ({ state }: { state: GameState }) => {
 				style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
 			/>
 			<h1>score: {state.score}</h1>
+			{typeof state.guessAccuracy === 'number' && <p>Last guess accuracy: {state.guessAccuracy}</p>}
 			<form className="flex flex-col gap-3" action={proceedGame}>
 				<label htmlFor="color-r">R</label>
 				<input min="0" max="255" step={1} required type="number" name="color-r" />
