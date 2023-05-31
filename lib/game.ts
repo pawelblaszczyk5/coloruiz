@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import invariant from 'tiny-invariant';
 import { z } from 'zod';
-import { colorValueSchema } from '~/utils/constants';
-import { env } from '~/utils/env.mjs';
-import { signCookie, unsignCookie } from '~/utils/signed-cookie';
+import { colorValueSchema } from '~/lib/constants';
+import { env } from '~/lib/env.mjs';
+import { signCookie, unsignCookie } from '~/lib/signed-cookie';
 
 const COOKIE_NAME = 'coloruiz-game-state';
 

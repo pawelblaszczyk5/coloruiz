@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 import { handleGameStart } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
-import { type GameState } from '~/utils/game-state';
+import { type GameState } from '~/lib/game';
 
 export const Summary = ({ state }: { state: GameState }) => {
 	return (

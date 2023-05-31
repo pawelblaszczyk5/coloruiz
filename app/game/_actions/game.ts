@@ -1,9 +1,9 @@
 'use server';
 
 import invariant from 'tiny-invariant';
-import { gameAnswerSchema } from '~/utils/constants';
-import { type Color, completeLevel, startNewGame } from '~/utils/game-state';
-import { vact } from '~/utils/vact';
+import { gameAnswerSchema } from '~/lib/constants';
+import { type Color, completeLevel, startNewGame } from '~/lib/game';
+import { vact } from '~/lib/vact';
 
 const normalizeAnswer = (answer: { hex: string } | { r: number; g: number; b: number }): Color => {
 	if ('r' in answer) return [answer.r, answer.g, answer.b];
@@ -23,12 +23,6 @@ const normalizeAnswer = (answer: { hex: string } | { r: number; g: number; b: nu
 	return matches.map(hex => Number.parseInt(hex, 16)) as Color;
 };
 
-export const handleAnswerSubmission = vact(gameAnswerSchema)(async data => {
-	const normalizedAnswer = normalizeAnswer(data);
+export const handleAnswerSubmission = vact(gameAnswerSchema)(async data => completeLevel(normalizeAnswer(data)));
 
-	return completeLevel(normalizedAnswer);
-});
-
-export const handleGameStart = async () => {
-	await startNewGame();
-};
+export const handleGameStart = async () => await startNewGame();

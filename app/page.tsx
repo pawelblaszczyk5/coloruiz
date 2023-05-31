@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { checkIsActiveGame } from '~/utils/game-state';
+import { checkIsActiveGame } from '~/lib/game';
 
 export const runtime = 'edge';
 

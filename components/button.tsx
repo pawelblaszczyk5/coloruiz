@@ -1,5 +1,5 @@
 import { type ComponentPropsWithoutRef } from 'react';
-import { cn } from '~/utils/classnames';
+import { cn } from '~/lib/classnames';
 
 export const Button = ({
 	className,

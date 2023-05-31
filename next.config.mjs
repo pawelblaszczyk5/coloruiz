@@ -1,6 +1,6 @@
 import UnpluginIconsWebpack from 'unplugin-icons/webpack';
 
-import './utils/env.mjs';
+import './lib/env.mjs';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
