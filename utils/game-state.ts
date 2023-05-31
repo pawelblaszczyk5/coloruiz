@@ -95,6 +95,10 @@ const getAllowedDiffPerLevel = (currentLevel: number) =>
 	BASE_ALLOWED_DIFF * ALLOWED_DIFF_PER_LEVEL_MULTIPLIER ** (currentLevel - 1);
 
 const PERFECT_SCORE = 500;
+const PERFECT_SCORE_PER_LEVEL_MULTIPLIER = 1.1;
+
+const getScore = (currentLevel: number, accuracy: number) =>
+	Math.round(PERFECT_SCORE * PERFECT_SCORE_PER_LEVEL_MULTIPLIER ** (currentLevel - 1) * accuracy);
 
 export const completeLevel = async (guess: Color) => {
 	const gameState = await getGameState();
@@ -106,7 +110,7 @@ export const completeLevel = async (guess: Color) => {
 
 	const accuracy = 1 - difference;
 
-	gameState.score += Math.round(PERFECT_SCORE * accuracy);
+	gameState.score += getScore(gameState.level, accuracy);
 	gameState.guessAccuracy = Math.round(accuracy * 100);
 
 	if (difference > allowedDifference) gameState.status = 'FINISHED';
