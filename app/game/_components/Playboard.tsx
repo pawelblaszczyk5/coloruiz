@@ -128,17 +128,21 @@ const HexInput = ({
 export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGame: typeof proceedGameAction }) => {
 	const [r, g, b] = state.currentColor;
 
-	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('hex');
+	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('separate');
 
 	return (
 		<div className="flex flex-col items-center gap-10">
-			<h1 className="text-4xl">Current color</h1>
-			<div
-				className="h-32 w-32 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-700/80"
-				style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
-			/>
-			<h1>score: {state.score}</h1>
-			{typeof state.guessAccuracy === 'number' && <p>Last guess accuracy: {state.guessAccuracy}</p>}
+			<h1 className="text-4xl">Level {state.level}</h1>
+			<div className="flex gap-4">
+				<div
+					className="h-24 w-24 shrink-0 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-700/80 sm:h-32 sm:w-32"
+					style={{ backgroundColor: `rgba(${r}, ${g}, ${b})` }}
+				/>
+				<div>
+					<h2 className="text-lg">Score: {state.score}</h2>
+					{typeof state.guessAccuracy === 'number' && <h3>Last guess accuracy: {state.guessAccuracy}%</h3>}
+				</div>
+			</div>
 			<form className="flex w-64 flex-col gap-6" action={proceedGame}>
 				{match(inputMode)
 					.with('separate', () => (
