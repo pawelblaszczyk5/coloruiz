@@ -154,6 +154,13 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 					))
 					.with('hex', () => <HexInput>Hex value</HexInput>)
 					.exhaustive()}
+				<Button
+					type="button"
+					onClick={() => setInputMode(currentValue => (currentValue === 'hex' ? 'separate' : 'hex'))}
+					variant="outlined"
+				>
+					Switch inputs
+				</Button>
 				<Button>Submit answer</Button>
 			</form>
 		</div>
