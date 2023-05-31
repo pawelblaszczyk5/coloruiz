@@ -12,9 +12,10 @@ const Home = async () => {
 				coloruiz
 			</h1>
 			<p className="text-center md:text-lg">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit soluta facere veniam, similique alias
-				eos qui sed omnis ad commodi aperiam, vitae amet velit officiis ducimus numquam molestiae? Quas, quibusdam.
+				How good you&apos;re at recognizing colors? Let&apos;s check it out in with a geek twist! Rules are simple, you
+				get a random color and you need to guess it RGB values.
 			</p>
+			<p className="text-center md:text-lg">It ain&apos;t easy, so lets check your skills!</p>
 			<NextLink
 				href="/game"
 				className={
