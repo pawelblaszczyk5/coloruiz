@@ -127,7 +127,6 @@ const HexInput = ({
 
 export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGame: typeof proceedGameAction }) => {
 	const [r, g, b] = state.currentColor;
-
 	const [inputMode, setInputMode] = useState<'hex' | 'separate'>('separate');
 
 	return (
@@ -141,6 +140,28 @@ export const Playboard = ({ state, proceedGame }: { state: GameState; proceedGam
 				<div>
 					<h2 className="text-lg">Score: {state.score}</h2>
 					{typeof state.guessAccuracy === 'number' && <h3>Last guess accuracy: {state.guessAccuracy}%</h3>}
+					{typeof state.guessAccuracy === 'number' && (
+						<p>
+							{match(state.guessAccuracy)
+								.when(
+									value => value > 95,
+									() => 'Amazing 🚀',
+								)
+								.when(
+									value => value > 90,
+									() => 'You rock 🪨',
+								)
+								.when(
+									value => value > 80,
+									() => 'Not bad 🙂',
+								)
+								.when(
+									value => value > 65,
+									() => 'Could be better 😛',
+								)
+								.otherwise(() => 'You must train more 🙃')}
+						</p>
+					)}
 				</div>
 			</div>
 			<form className="flex w-64 flex-col gap-6" action={proceedGame}>
