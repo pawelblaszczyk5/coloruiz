@@ -235,6 +235,7 @@ export const Playboard = ({
 								</Field>
 							))
 							.exhaustive()}
+						<Button>Submit answer</Button>
 						<Button
 							type="button"
 							onClick={() => setInputMode(currentValue => (currentValue === 'hex' ? 'separate' : 'hex'))}
@@ -242,7 +243,6 @@ export const Playboard = ({
 						>
 							Switch inputs
 						</Button>
-						<Button>Submit answer</Button>
 					</form>
 				)}
 			</SubmitAnswerForm>
