@@ -11,29 +11,28 @@ export const colorValueSchema = z
 	.min(0, "Value can't be below 0")
 	.max(255, "Value can't be above 255");
 
-export const gameAnswerRGBSchema = z.object({
-	r: colorValueSchema,
-	g: colorValueSchema,
-	b: colorValueSchema,
-});
-
-export const gameAnswerHexSchema = z.object({
-	hex: z.union([
-		z
-			.string({
-				invalid_type_error: 'Value is required',
-				required_error: 'Value is required',
-			})
-			.length(3, 'Value must be a valid hex color')
-			.regex(HEX_REGEX, 'Value must be a valid hex color'),
-		z
-			.string({
-				invalid_type_error: 'Value is required',
-				required_error: 'Value is required',
-			})
-			.length(6, 'Value must be a valid hex color')
-			.regex(HEX_REGEX, 'Value must be a valid hex color'),
-	]),
-});
-
-export const gameAnswerSchema = z.union([gameAnswerRGBSchema, gameAnswerHexSchema]);
+export const gameAnswerSchema = z.union([
+	z.object({
+		hex: z.union([
+			z
+				.string({
+					invalid_type_error: 'Value is required',
+					required_error: 'Value is required',
+				})
+				.length(3, 'Value must be a valid hex color')
+				.regex(HEX_REGEX, 'Value must be a valid hex color'),
+			z
+				.string({
+					invalid_type_error: 'Value is required',
+					required_error: 'Value is required',
+				})
+				.length(6, 'Value must be a valid hex color')
+				.regex(HEX_REGEX, 'Value must be a valid hex color'),
+		]),
+	}),
+	z.object({
+		r: colorValueSchema,
+		g: colorValueSchema,
+		b: colorValueSchema,
+	}),
+]);

@@ -14,7 +14,7 @@ import { match } from 'ts-pattern';
 import { type handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Button } from '~/components/button';
 import { cn } from '~/lib/classnames';
-import { gameAnswerHexSchema, gameAnswerRGBSchema } from '~/lib/constants';
+import { gameAnswerSchema } from '~/lib/constants';
 import { type ColorMode, formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 import LucideChevronDown from '~icons/lucide/chevron-down.jsx';
@@ -198,7 +198,7 @@ export const Playboard = ({
 						{match(inputMode)
 							.with('separate', () =>
 								(['r', 'g', 'b'] as const).map(color => (
-									<Field<number> key={color} name={color} onSubmitValidate={gameAnswerRGBSchema.shape.r}>
+									<Field<number> key={color} name={color} onSubmitValidate={gameAnswerSchema.options[1].shape.r}>
 										{({ value, setValue, errors }) => (
 											<SingleValueInput
 												value={String(value)}
@@ -218,7 +218,7 @@ export const Playboard = ({
 								)),
 							)
 							.with('hex', () => (
-								<Field<string> name="hex" onSubmitValidate={gameAnswerHexSchema.shape.hex}>
+								<Field<string> name="hex" onSubmitValidate={gameAnswerSchema.options[0].shape.hex}>
 									{({ value, setValue, errors }) => (
 										<HexInput
 											error={errors[0]}
