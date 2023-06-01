@@ -40,6 +40,7 @@ export const SingleValueInput = ({
 			step={1}
 			inputMode="numeric"
 			validateCharacter={char => DIGIT_REGEX.test(char)}
+			defaultValue={props.value}
 			{...props}
 		>
 			<NumberInputLabel className="text-lg">{children}</NumberInputLabel>

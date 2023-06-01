@@ -86,7 +86,6 @@ export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onA
 					setErrors(result.data);
 				}}
 			>
-				{/* TODO: Problem in this component on server */}
 				{match(formState)
 					.with({ r: P._ }, separateFormState =>
 						(['r', 'g', 'b'] as const).map(color => (
