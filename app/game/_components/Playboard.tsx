@@ -142,7 +142,7 @@ export const Playboard = ({
 
 	return (
 		<div className="flex flex-col items-center gap-10">
-			<h1 className="text-4xl">Level {state.level}</h1>
+			<h1 className="text-center text-4xl">Level {state.level}</h1>
 			<div className="flex gap-4">
 				<div
 					className="h-24 w-24 shrink-0 rounded-md shadow-md shadow-stone-950/30 dark:shadow-stone-200/20 sm:h-32 sm:w-32"

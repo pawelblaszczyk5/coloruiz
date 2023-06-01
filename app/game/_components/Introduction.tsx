@@ -4,7 +4,7 @@ import { Button } from '~/components/button';
 export const Introduction = () => {
 	return (
 		<div className="flex flex-col items-center gap-10">
-			<h1 className="text-4xl">How to play?</h1>
+			<h1 className="text-center text-4xl">How to play?</h1>
 			<div className="flex flex-col gap-4">
 				<p className="md:text-lg">
 					In each level you&apos;l get a random color displayed. Your goal is to assign RGB (red, green, blue) values to
