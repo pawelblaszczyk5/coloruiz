@@ -50,6 +50,12 @@ const error = <const TResult>(result: TResult): Brand<ErrorResult<TResult>, 'VAC
 	[BRAND]: 'VACT-RESULT',
 });
 
+const unbrandResult = <TResult extends Result<any, any, any>>(result: Brand<TResult, 'VACT-RESULT'>): TResult => {
+	const { [BRAND]: brand, ...unbrandedResult } = result;
+
+	return unbrandedResult as unknown as TResult;
+};
+
 const isResult = (input: unknown): input is Brand<Result<any, any, any>, 'VACT-RESULT'> =>
 	typeof input === 'object' && input !== null && BRAND in input && input[BRAND] === 'VACT-RESULT';
 
@@ -59,15 +65,11 @@ export const vact =
 		(async (input: TInput) => {
 			const inputValidationResult = validator.safeParse(input);
 
-			if (!inputValidationResult.success) return invalid(inputValidationResult.error.flatten());
+			if (!inputValidationResult.success) return { status: 'invalid', data: inputValidationResult.error.flatten() };
 
 			const actionResult = await actionImplementation(inputValidationResult.data);
 
-			const brandedResult = isResult(actionResult) ? actionResult : ok(actionResult);
-
-			const { [BRAND]: brand, ...unbrandedResult } = brandedResult;
-
-			return unbrandedResult;
+			return isResult(actionResult) ? unbrandResult(actionResult) : { status: 'success', data: actionResult };
 		}) as Action<TInput, TOutput>;
 
 vact.ok = ok;

@@ -1,144 +1,37 @@
 'use client';
 
-import {
-	NumberInput,
-	NumberInputControl,
-	NumberInputDecrementTrigger,
-	NumberInputField,
-	NumberInputIncrementTrigger,
-	NumberInputLabel,
-} from '@ark-ui/react';
-import { Form, Field } from 'houseform';
-import { useState, type ReactNode, type ComponentProps, useId } from 'react';
-import { match } from 'ts-pattern';
+import { useState } from 'react';
+import { P, match } from 'ts-pattern';
 import { type handleAnswerSubmission } from '~/app/game/_actions/game';
+import { HexInput } from '~/app/game/_components/HexInput';
+import { SingleValueInput } from '~/app/game/_components/SingleValueInput';
 import { Button } from '~/components/button';
-import { cn } from '~/lib/classnames';
-import { gameAnswerSchema } from '~/lib/constants';
-import { type ColorMode, formatColor } from '~/lib/formatColor';
+import { formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
-import LucideChevronDown from '~icons/lucide/chevron-down.jsx';
-import LucideChevronUp from '~icons/lucide/chevron-up.jsx';
-import LucideHash from '~icons/lucide/hash.jsx';
 
-const DIGIT_REGEX = /\d/u;
 const HEX_REGEX = /^[\da-f]*$/iu;
 
-const SingleValueInput = ({
-	children,
-	error,
-	...props
-}: { children: ReactNode; error?: string | undefined } & Pick<
-	ComponentProps<typeof NumberInput>,
-	'value' | 'onChange' | 'name'
->) => {
-	const hasError = typeof error === 'string';
-	const errorId = useId();
+type ActionFunction = typeof handleAnswerSubmission;
+type ActionPayload = Parameters<ActionFunction>[0];
+type ActionErrors = Extract<Awaited<ReturnType<ActionFunction>>, { status: 'invalid' }>['data'];
 
-	return (
-		<NumberInput
-			translations={{
-				decrementLabel: 'Decrement value',
-				incrementLabel: 'Increment value',
-			}}
-			className="flex flex-col gap-2"
-			allowMouseWheel
-			min={0}
-			max={255}
-			maxFractionDigits={0}
-			step={1}
-			inputMode="numeric"
-			validateCharacter={char => DIGIT_REGEX.test(char)}
-			{...props}
-		>
-			<NumberInputLabel className="text-lg">{children}</NumberInputLabel>
-			<div className="relative">
-				<NumberInputField
-					aria-describedby={hasError ? errorId : undefined}
-					aria-errormessage={hasError ? errorId : undefined}
-					className={cn(
-						'w-full rounded-md border-2 bg-stone-50 px-14 py-2 text-base outline-2 outline-offset-2 outline-fuchsia-500 focus-visible:outline dark:bg-stone-900',
-						hasError ? 'border-rose-700' : 'border-teal-700',
-					)}
-				/>
-				<NumberInputControl>
-					<NumberInputDecrementTrigger
-						className={cn(
-							'absolute left-0 top-0 grid aspect-square h-full place-items-center border-r-2  text-xl',
-							hasError ? 'border-rose-700' : 'border-teal-700',
-						)}
-					>
-						<LucideChevronDown />
-					</NumberInputDecrementTrigger>
-					<NumberInputIncrementTrigger
-						className={cn(
-							'absolute right-0 top-0 grid aspect-square h-full place-items-center border-l-2  text-xl',
-							hasError ? 'border-rose-700' : 'border-teal-700',
-						)}
-					>
-						<LucideChevronUp />
-					</NumberInputIncrementTrigger>
-				</NumberInputControl>
-			</div>
-			{hasError && <p className="text-rose-700 dark:text-rose-400">{error}</p>}
-		</NumberInput>
-	);
-};
-
-const HexInput = ({
-	error,
-	children,
-	...props
-}: { error?: string | undefined; children: ReactNode } & Pick<
-	ComponentProps<'input'>,
-	'value' | 'onChange' | 'name'
->) => {
-	const hasError = typeof error === 'string';
-	const id = useId();
-
-	const inputId = `${id}-input`;
-	const errorId = `${id}-error`;
-
-	return (
-		<div className="flex flex-col gap-2">
-			<label className="text-lg" htmlFor={inputId}>
-				{children}
-			</label>
-			<div className="relative">
-				<div className="pointer-events-none absolute left-0 top-0 grid aspect-square h-11 w-11 place-items-center text-lg text-stone-500">
-					<LucideHash />
-				</div>
-				<input
-					className={cn(
-						'w-full rounded-md border-2 bg-stone-50 py-2 pl-10 pr-4 text-base outline-2 outline-offset-2 outline-fuchsia-500 focus-visible:outline dark:bg-stone-900',
-						hasError ? 'border-rose-700' : 'border-teal-700',
-					)}
-					id={inputId}
-					aria-describedby={hasError ? errorId : undefined}
-					aria-errormessage={hasError ? errorId : undefined}
-					autoComplete="off"
-					spellCheck={false}
-					maxLength={6}
-					type="text"
-					{...props}
-				/>
-			</div>
-			{hasError && <p className="text-rose-700 dark:text-rose-400">{error}</p>}
-		</div>
-	);
-};
-
-const SubmitAnswerForm = Form<Parameters<typeof handleAnswerSubmission>[0]>;
-
-export const Playboard = ({
-	state,
-	onAnswerSubmission,
-}: {
-	state: GameState;
-	onAnswerSubmission: typeof handleAnswerSubmission;
-}) => {
+export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onAnswerSubmission: ActionFunction }) => {
 	const [r, g, b] = state.currentColor;
-	const [inputMode, setInputMode] = useState<ColorMode>('separate');
+	const [formState, setFormState] = useState<ActionPayload>({
+		r: 0,
+		g: 0,
+		b: 0,
+	});
+
+	const [errors, setErrors] = useState<ActionErrors | null>(null);
+
+	const switchInputMode = () => {
+		setFormState(previousState => {
+			if ('hex' in previousState) return { r: 0, g: 0, b: 0 };
+
+			return { hex: '' };
+		});
+	};
 
 	return (
 		<div className="flex flex-col items-center gap-10">
@@ -175,77 +68,72 @@ export const Playboard = ({
 							</p>
 						</>
 					)}
-					{typeof state.previousColor === 'object' && (
-						<p>Previous answer: {formatColor(state.previousColor, inputMode)}</p>
+					{Array.isArray(state.previousColor) && (
+						<p>Previous answer: {formatColor(state.previousColor, 'hex' in formState ? 'hex' : 'separate')}</p>
 					)}
 				</div>
 			</div>
-			<SubmitAnswerForm>
-				{({ submit, value, reset }) => (
-					<form
-						className="flex w-64 flex-col gap-6"
-						action={async () => {
-							const isValid = await submit();
+			<form
+				className="flex w-64 flex-col gap-6"
+				action={async () => {
+					const result = await onAnswerSubmission(formState);
 
-							if (!isValid) return;
+					if (result.status !== 'invalid') {
+						setErrors(null);
+						return;
+					}
 
-							// value is validated here
-							await onAnswerSubmission(value as Required<typeof value>);
+					setErrors(result.data);
+				}}
+			>
+				{/* TODO: Problem in this component on server */}
+				{match(formState)
+					.with({ r: P._ }, separateFormState =>
+						(['r', 'g', 'b'] as const).map(color => (
+							<SingleValueInput
+								key={color}
+								value={String(separateFormState[color])}
+								onChange={({ valueAsNumber }) =>
+									setFormState(previousState => ({
+										...previousState,
+										[color]: valueAsNumber,
+									}))
+								}
+								name={color}
+								error={errors?.fieldErrors[color]?.at(0)}
+							>
+								{match(color)
+									.with('r', () => 'Red')
+									.with('g', () => 'Green')
+									.with('b', () => 'Blue')
+									.exhaustive()}{' '}
+								value
+							</SingleValueInput>
+						)),
+					)
+					.with({ hex: P._ }, hexFormState => (
+						<HexInput
+							error={errors?.fieldErrors.hex?.at(0)}
+							value={hexFormState.hex}
+							onChange={e => {
+								const newValue = e.currentTarget.value;
 
-							reset();
-						}}
-					>
-						{match(inputMode)
-							.with('separate', () =>
-								(['r', 'g', 'b'] as const).map(color => (
-									<Field<number> key={color} name={color} onSubmitValidate={gameAnswerSchema.options[1].shape.r}>
-										{({ value, setValue, errors }) => (
-											<SingleValueInput
-												value={String(value)}
-												onChange={({ valueAsNumber }) => setValue(valueAsNumber)}
-												name={color}
-												error={errors[0]}
-											>
-												{match(color)
-													.with('r', () => 'Red')
-													.with('g', () => 'Green')
-													.with('b', () => 'Blue')
-													.exhaustive()}{' '}
-												value
-											</SingleValueInput>
-										)}
-									</Field>
-								)),
-							)
-							.with('hex', () => (
-								<Field<string> name="hex" onSubmitValidate={gameAnswerSchema.options[0].shape.hex}>
-									{({ value, setValue, errors }) => (
-										<HexInput
-											error={errors[0]}
-											value={value}
-											onChange={e => {
-												const newValue = e.currentTarget.value;
+								setFormState(previousState => {
+									if (HEX_REGEX.test(newValue)) return { hex: newValue };
 
-												setValue(HEX_REGEX.test(newValue) ? newValue : value);
-											}}
-										>
-											Hex value
-										</HexInput>
-									)}
-								</Field>
-							))
-							.exhaustive()}
-						<Button>Submit answer</Button>
-						<Button
-							type="button"
-							onClick={() => setInputMode(currentValue => (currentValue === 'hex' ? 'separate' : 'hex'))}
-							variant="outlined"
+									return previousState;
+								});
+							}}
 						>
-							Switch inputs
-						</Button>
-					</form>
-				)}
-			</SubmitAnswerForm>
+							Hex value
+						</HexInput>
+					))
+					.exhaustive()}
+				<Button>Submit answer</Button>
+				<Button type="button" onClick={switchInputMode} variant="outlined">
+					Switch inputs
+				</Button>
+			</form>
 		</div>
 	);
 };

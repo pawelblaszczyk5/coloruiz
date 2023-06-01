@@ -4,7 +4,7 @@ import { Button } from '~/components/button';
 import { formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 
-export const Summary = ({ state }: { state: GameState }) => {
+export const Summary = async ({ state }: { state: GameState }) => {
 	return (
 		<div className="flex flex-col items-center gap-10">
 			<h1 className="text-center text-4xl">
