@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import { P, match } from 'ts-pattern';
 import { type handleAnswerSubmission } from '~/app/game/_actions/game';
+import { Button } from '~/app/game/_components/Button';
 import { HexInput } from '~/app/game/_components/HexInput';
 import { SingleValueInput } from '~/app/game/_components/SingleValueInput';
-import { Button } from '~/components/button';
 import { formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 

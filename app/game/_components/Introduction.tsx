@@ -1,5 +1,5 @@
 import { handleGameStart } from '~/app/game/_actions/game';
-import { Button } from '~/components/button';
+import { Button } from '~/app/game/_components/Button';
 
 export const Introduction = () => {
 	return (

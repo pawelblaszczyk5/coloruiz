@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 import { handleGameStart } from '~/app/game/_actions/game';
-import { Button } from '~/components/button';
+import { Button } from '~/app/game/_components/Button';
 import { formatColor } from '~/lib/formatColor';
 import { type GameState } from '~/lib/game';
 
