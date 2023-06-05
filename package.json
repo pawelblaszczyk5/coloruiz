@@ -10,9 +10,9 @@
 		"update-deps": "taze major -I -r -w "
 	},
 	"dependencies": {
-		"@ark-ui/react": "^0.5.0",
+		"@ark-ui/react": "^0.6.0",
 		"clsx": "^1.2.1",
-		"next": "13.4.5-canary.3",
+		"next": "13.4.5-canary.4",
 		"next-themes": "^0.2.1",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
@@ -23,7 +23,7 @@
 	},
 	"devDependencies": {
 		"@iconify-json/fluent-emoji": "^1.1.13",
-		"@iconify-json/lucide": "^1.1.95",
+		"@iconify-json/lucide": "^1.1.97",
 		"@svgr/core": "^8.0.0",
 		"@svgr/plugin-jsx": "^8.0.1",
 		"@t3-oss/env-nextjs": "^0.4.0",
@@ -35,7 +35,7 @@
 		"@typescript-eslint/parser": "^5.59.8",
 		"autoprefixer": "^10.4.14",
 		"client-only": "^0.0.1",
-		"eslint": "^8.41.0",
+		"eslint": "^8.42.0",
 		"eslint-config-next": "^13.4.4",
 		"eslint-config-prettier": "^8.8.0",
 		"eslint-import-resolver-typescript": "^3.5.5",
