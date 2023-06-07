@@ -33,6 +33,15 @@ export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onA
 		});
 	};
 
+	const resetState = () => {
+		setFormState(previousState => {
+			if ('hex' in previousState) return { hex: '' };
+
+			return { r: 0, g: 0, b: 0 };
+		});
+		setErrors(null);
+	};
+
 	return (
 		<div className="flex flex-col items-center gap-10">
 			<h1 className="text-center text-4xl">Level {state.level}</h1>
@@ -78,10 +87,7 @@ export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onA
 				action={async () => {
 					const result = await onAnswerSubmission(formState);
 
-					if (result.status !== 'invalid') {
-						setErrors(null);
-						return;
-					}
+					if (result.status !== 'invalid') return resetState();
 
 					setErrors(result.data);
 				}}
