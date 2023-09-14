@@ -18,7 +18,7 @@ const convertHexStringIntoBuffer = (text: string) => {
 
 	invariant(matches, 'Text is an invalid hexadecimal value');
 
-	return new Uint8Array(matches.map(hex => Number.parseInt(hex, 16))).buffer;
+	return Buffer.from(new Uint8Array(matches.map(hex => Number.parseInt(hex, 16))));
 };
 
 const asyncSome = async <TArrayElement>(

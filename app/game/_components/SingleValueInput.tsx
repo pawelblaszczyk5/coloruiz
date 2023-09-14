@@ -4,7 +4,7 @@ import {
 	NumberInput,
 	NumberInputControl,
 	NumberInputDecrementTrigger,
-	NumberInputField,
+	NumberInputInput,
 	NumberInputIncrementTrigger,
 	NumberInputLabel,
 } from '@ark-ui/react';
@@ -45,7 +45,7 @@ export const SingleValueInput = ({
 		>
 			<NumberInputLabel className="text-lg">{children}</NumberInputLabel>
 			<div className="relative">
-				<NumberInputField
+				<NumberInputInput
 					aria-describedby={hasError ? errorId : undefined}
 					aria-errormessage={hasError ? errorId : undefined}
 					className={cn(

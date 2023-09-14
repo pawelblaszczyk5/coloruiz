@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { P, match } from 'ts-pattern';
-import { type handleAnswerSubmission } from '~/app/game/_actions/game';
+import { handleAnswerSubmission } from '~/app/game/_actions/game';
 import { Button } from '~/app/game/_components/Button';
 import { HexInput } from '~/app/game/_components/HexInput';
 import { SingleValueInput } from '~/app/game/_components/SingleValueInput';
@@ -15,7 +15,7 @@ type ActionFunction = typeof handleAnswerSubmission;
 type ActionPayload = Parameters<ActionFunction>[0];
 type ActionErrors = Extract<Awaited<ReturnType<ActionFunction>>, { status: 'invalid' }>['data'];
 
-export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onAnswerSubmission: ActionFunction }) => {
+export const Playboard = ({ state }: { state: GameState; }) => {
 	const [r, g, b] = state.currentColor;
 	const [formState, setFormState] = useState<ActionPayload>({
 		r: 0,
@@ -85,7 +85,7 @@ export const Playboard = ({ state, onAnswerSubmission }: { state: GameState; onA
 			<form
 				className="flex w-64 flex-col gap-6"
 				action={async () => {
-					const result = await onAnswerSubmission(formState);
+					const result = await handleAnswerSubmission(formState);
 
 					if (result.status !== 'invalid') return resetState();
 
