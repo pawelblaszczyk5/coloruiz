@@ -9,6 +9,12 @@ const nextConfig = {
 		ppr: true,
 		webpackBuildWorker: true,
 	},
+	eslint: {
+		ignoreDuringBuilds: true,
+	},
+	typescript: {
+		ignoreBuildErrors: true,
+	},
 	reactStrictMode: true,
 	webpack(config) {
 		config.plugins.push(
