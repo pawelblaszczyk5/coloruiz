@@ -6,7 +6,7 @@ import './lib/env.mjs';
 const nextConfig = {
 	experimental: {
 		typedRoutes: true,
-		serverActions: true,
+		ppr: true,
 	},
 	reactStrictMode: true,
 	webpack(config) {

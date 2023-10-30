@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { match } from 'ts-pattern';
+import { unstable_postpone } from 'react';
 import LucideMonitor from '~icons/lucide/monitor.jsx';
 import LucideMoon from '~icons/lucide/moon.jsx';
 import LucideSun from '~icons/lucide/sun.jsx';
@@ -33,6 +34,8 @@ const getThemeIcon = (currentTheme: (typeof THEME)[keyof typeof THEME]) =>
 		.exhaustive();
 
 export const ThemeSwitcher = () => {
+	if (typeof document === 'undefined') unstable_postpone("Can't render ThemeSwitcher on server");
+
 	const { setTheme, theme: unmappedTheme } = useTheme();
 	const theme = mapTheme(unmappedTheme);
 	const nextTheme = getNextTheme(theme);
