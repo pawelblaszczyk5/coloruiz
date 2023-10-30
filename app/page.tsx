@@ -1,8 +1,10 @@
+import { cookies } from 'next/headers';
 import NextLink from 'next/link';
 import { Suspense } from 'react';
 import { checkIsActiveGame } from '~/lib/game';
 
 const GameLink = async () => {
+	const cookieStore = cookies();
 	const isActiveGame = await checkIsActiveGame();
 
 	return (
