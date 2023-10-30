@@ -1,8 +1,8 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { match } from 'ts-pattern';
 import { unstable_postpone } from 'react';
+import { match } from 'ts-pattern';
 import LucideMonitor from '~icons/lucide/monitor.jsx';
 import LucideMoon from '~icons/lucide/moon.jsx';
 import LucideSun from '~icons/lucide/sun.jsx';

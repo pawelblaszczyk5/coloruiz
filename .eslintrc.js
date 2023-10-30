@@ -6,7 +6,7 @@ module.exports = {
 		'prettier.config.js',
 		'node_module',
 		'tailwind.config.js',
-		'next.config.js',
+		'next.config.mjs',
 		'postcss.config.js',
 		'next-env.d.ts',
 	],
