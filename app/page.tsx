@@ -1,7 +1,8 @@
-import { unstable_noStore } from 'next/cache';
 import NextLink from 'next/link';
 import { Suspense } from 'react';
 import { checkIsActiveGame } from '~/lib/game';
+
+export const runtime = 'experimental-edge';
 
 const GameLink = async () => {
 	const isActiveGame = await checkIsActiveGame();
