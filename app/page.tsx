@@ -1,8 +1,6 @@
 import NextLink from 'next/link';
 import { checkIsActiveGame } from '~/lib/game';
 
-export const runtime = 'edge';
-
 const Home = async () => {
 	const isActiveGame = await checkIsActiveGame();
 
