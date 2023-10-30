@@ -1,3 +1,4 @@
+import { unstable_noStore } from 'next/cache';
 import NextLink from 'next/link';
 import { Suspense } from 'react';
 import { checkIsActiveGame } from '~/lib/game';
@@ -28,7 +29,7 @@ const Home = async () => {
 				get a random color and you need to guess it RGB values.
 			</p>
 			<p className="text-center md:text-lg">It ain&apos;t easy, so lets check your skills and luck!</p>
-			<Suspense fallback={<div>Hello world</div>}>
+			<Suspense fallback={null}>
 				<GameLink />
 			</Suspense>
 		</div>
