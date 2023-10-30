@@ -6,7 +6,6 @@ import './lib/env.mjs';
 const nextConfig = {
 	experimental: {
 		typedRoutes: true,
-		ppr: true,
 		webpackBuildWorker: true,
 	},
 	eslint: {
