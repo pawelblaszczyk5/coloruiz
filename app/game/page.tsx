@@ -4,8 +4,6 @@ import { Playboard } from '~/app/game/_components/Playboard';
 import { Summary } from '~/app/game/_components/Summary';
 import { getGameState } from '~/lib/game';
 
-export const runtime = 'edge';
-
 const Game = async () => {
 	const gameState = await getGameState();
 
