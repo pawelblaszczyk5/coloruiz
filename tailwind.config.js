@@ -6,7 +6,7 @@ module.exports = {
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ['var(--font-manrope)', ...defaultTheme.fontFamily.sans],
+				sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
 			},
 			animation: {
 				text: 'text 7s ease infinite',

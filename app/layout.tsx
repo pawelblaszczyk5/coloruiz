@@ -1,11 +1,9 @@
-import { Manrope } from 'next/font/google';
+import { GeistSans } from 'geist/font';
 import { type ReactNode } from 'react';
 import { Header } from '~/app/_components/Header';
 import { Providers } from '~/app/_components/Providers';
 
 import '~/app/globals.css';
-
-const manropeFont = Manrope({ subsets: ['latin'], weight: 'variable', variable: '--font-manrope' });
 
 export const metadata = {
 	title: 'coloruiz',
@@ -14,7 +12,7 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
 	return (
-		<html suppressHydrationWarning className={manropeFont.variable} lang="en">
+		<html suppressHydrationWarning className={GeistSans.variable} lang="en">
 			<head>
 				<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 				<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

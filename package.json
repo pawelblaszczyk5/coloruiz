@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@ark-ui/react": "^0.15.0",
 		"clsx": "^2.0.0",
+		"geist": "^1.0.1",
 		"next": "14.0.2-canary.20",
 		"next-themes": "^0.2.1",
 		"react": "^18.2.0",
